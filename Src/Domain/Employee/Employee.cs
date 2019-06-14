@@ -6,7 +6,6 @@ namespace Domain.Employee
 {
     public class Employee : AggregateRoot
     {
-        private int _employeeId;
         private string _firstName;
         private string _lastName;
         private DateTime _dateOfBirth;
@@ -14,16 +13,15 @@ namespace Domain.Employee
 
         protected Employee() { }
 
-        public Employee(Guid id, int employeeId, string firstName, string lastName, DateTime dateOfBirth, string jobTitle)
+        public Employee(Guid employeeId, string firstName, string lastName, DateTime dateOfBirth, string jobTitle)
         {
-            Id = id;
-            _employeeId = employeeId;
+            Id = employeeId;
             _firstName = firstName;
             _lastName = lastName;
             _dateOfBirth = dateOfBirth;
             _jobTitle = jobTitle;
 
-            ApplyChange(new EmployeeCreatedEvent(id, employeeId, firstName, lastName, dateOfBirth, jobTitle));
+            ApplyChange(new EmployeeCreatedEvent(employeeId, firstName, lastName, dateOfBirth, jobTitle));
         }
     }
 }

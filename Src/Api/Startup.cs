@@ -3,6 +3,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Api.Controllers;
+using Api.DTOs;
 using CQRSlite.Caching;
 using CQRSlite.Commands;
 using CQRSlite.Domain;
@@ -11,12 +12,10 @@ using CQRSlite.Messages;
 using CQRSlite.Queries;
 using CQRSlite.Routing;
 using Domain.Base;
-using Domain.Employee;
 using Domain.Employee.Commands;
 using Domain.Employee.Events;
-using Domain.Location;
 using Domain.Location.Commands;
-using Domain.Location.Events;
+using EventStore.ClientAPI;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -79,7 +78,8 @@ namespace Api
             );
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2)
                 .AddFluentValidation(a => a.RegisterValidatorsFromAssemblyContaining<Startup>());
-            services.AddSingleton<IConnectionMultiplexer>(s => ConnectionMultiplexer.Connect("localhost:9503"));
+            services.AddSingleton<IConnectionMultiplexer>(s => ConnectionMultiplexer.Connect(Configuration["Redis"]));
+            services.AddSingleton(s => EventStoreConnection.Create(Configuration["EventStore"]));
             var serviceProvider = services.BuildServiceProvider();
             var registrar = new RouteRegistrar(new Provider(serviceProvider));
             registrar.RegisterInAssemblyOf(typeof(EmployeeEventHandler));
@@ -123,6 +123,7 @@ namespace Api
                    _serviceProvider.GetService(serviceType);
         }
     }
+
     public class MapperService : IMapper
     {
         public Task<TD> Map<TD>(object message)
@@ -137,19 +138,11 @@ namespace Api
         {
             config.ForType<CreateEmployeeRequest, CreateEmployeeCommand>()
                 .ConstructUsing(src => new CreateEmployeeCommand(Guid.NewGuid(),
-                    src.EmployeeId, src.FirstName, src.LastName, src.DateOfBirth, src.JobTitle));
+                    src.FirstName, src.LastName, src.DateOfBirth, src.JobTitle));
 
             config.ForType<CreateLocationRequest, CreateLocationCommand>()
                 .ConstructUsing(src => new CreateLocationCommand(Guid.NewGuid(), src.LocationId, src.StreetAddress, src.City,
                     src.State, src.PostalCode));
-
-            config.ForType<LocationCreatedEvent, LocationRM>()
-                .Map(it => it.AggregateId, it => it.Id)
-                .Map(it => it.Id, it => it.LocationId);
-
-            config.ForType<EmployeeCreatedEvent, EmployeeRM>()
-                .Map(it => it.AggregateId, it => it.Id)
-                .Map(it => it.Id, it => it.EmployeeId);
         }
     }
 }

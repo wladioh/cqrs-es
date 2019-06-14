@@ -7,34 +7,32 @@ namespace Domain.Location
 {
     public class Location : AggregateRoot
     {
-        private int _locationId;
         private string _streetAddress;
         private string _city;
         private string _state;
         private string _postalCode;
-        private readonly List<int> _employees = new List<int>();
+        private readonly List<Guid> _employees = new List<Guid>();
 
         protected Location() { }
 
-        public Location(Guid id, int locationId, string streetAddress, string city, string state, string postalCode)
+        public Location(Guid id, string streetAddress, string city, string state, string postalCode)
         {
-            ApplyChange(new LocationCreatedEvent(id, locationId, streetAddress, city, state, postalCode));
+            ApplyChange(new LocationCreatedEvent(id, streetAddress, city, state, postalCode));
         }
 
-        public void AddEmployee(int employeeId)
+        public void AddEmployee(Guid employeeId)
         {
-            ApplyChange(new EmployeeAssignedToLocationEvent(Id, _locationId, employeeId));
+            ApplyChange(new EmployeeAssignedToLocationEvent(Id, employeeId));
         }
 
-        public void RemoveEmployee(int employeeId)
+        public void RemoveEmployee(Guid employeeId)
         {
-            ApplyChange(new EmployeeRemovedFromLocationEvent(Id, _locationId, employeeId));
+            ApplyChange(new EmployeeRemovedFromLocationEvent(Id, employeeId));
         }
 
         private void Apply(LocationCreatedEvent e)
         {
             Id = e.Id;
-            _locationId = e.LocationId;
             _streetAddress = e.StreetAddress;
             _city = e.City;
             _state = e.State;

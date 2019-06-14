@@ -5,10 +5,10 @@ namespace Domain.Location.Commands
 {
     public class RemoveEmployeeFromLocationCommand : BaseCommand
     {
-        public readonly int EmployeeId;
-        public readonly int LocationId;
+        public readonly Guid EmployeeId;
+        public readonly Guid LocationId;
 
-        public RemoveEmployeeFromLocationCommand(Guid id, int locationId, int employeeId)
+        public RemoveEmployeeFromLocationCommand(Guid id, Guid locationId, Guid employeeId)
         {
             Id = id;
             EmployeeId = employeeId;

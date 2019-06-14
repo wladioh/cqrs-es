@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using CQRSlite.Events;
 using Domain.Base;
@@ -30,25 +31,25 @@ namespace Domain.Location.Events
 
         public async Task Handle(EmployeeAssignedToLocationEvent message, CancellationToken ct)
         {
-            var location = await _locationRepo.GetById(message.NewLocationId, ct);
+            var location = await _locationRepo.GetById(message.Id, ct);
             location.Employees.Add(message.EmployeeId);
             await _locationRepo.Save(location, ct);
 
             //Find the employee which was assigned to this Location
             var employee = await _employeeRepo.GetById(message.EmployeeId, ct);
-            employee.LocationId = message.NewLocationId;
+            employee.LocationId = message.Id;
             await _employeeRepo.Save(employee, ct);
         }
 
         public async Task Handle(EmployeeRemovedFromLocationEvent message, CancellationToken ct)
         {
-            var location = await _locationRepo.GetById(message.OldLocationId, ct);
+            var location = await _locationRepo.GetById(message.Id, ct);
             location.Employees.Remove(message.EmployeeId);
             await _locationRepo.Save(location, ct);
 
             //Find the employee which was assigned to this Location
             var employee = await _employeeRepo.GetById(message.EmployeeId, ct);
-            employee.LocationId = 0;
+            employee.LocationId = Guid.Empty;
             await _employeeRepo.Save(employee, ct);
         }
     }

@@ -24,7 +24,7 @@ namespace Infra
             _namespace = nameSpace;
         }
 
-        public async Task<T> GetById(int id, CancellationToken tc = default)
+        public async Task<T> GetById(Guid id, CancellationToken tc = default)
         {
             return await Get<T>(id.ToString(), tc);
         }
@@ -39,7 +39,7 @@ namespace Infra
                 JsonConvert.DeserializeObject<TD>(serializedObject.ToString());
         }
 
-        public async Task<List<T>> GetMultiple(int[] ids, CancellationToken tc = default)
+        public async Task<List<T>> GetMultiple(Guid[] ids, CancellationToken tc = default)
         {
             var database = _redisConnection.GetDatabase();
             var keys = new List<RedisKey>();
@@ -51,7 +51,7 @@ namespace Infra
             return serializedItems.Select(item => JsonConvert.DeserializeObject<T>(item.ToString())).ToList();
         }
 
-        public async Task<bool> Exists(int id, CancellationToken tc = default)
+        public async Task<bool> Exists(Guid id, CancellationToken tc = default)
         {
             return await Exists(id.ToString(), tc);
         }
@@ -64,7 +64,7 @@ namespace Infra
             return x;
         }
 
-        public async Task Save(int id, object entity, CancellationToken tc = default)
+        public async Task Save(Guid id, object entity, CancellationToken tc = default)
         {
             await Save(id.ToString(), entity, tc);
         }
@@ -76,7 +76,7 @@ namespace Infra
             await database.StringSetAsync(MakeKey(key), JsonConvert.SerializeObject(entity));
         }
 
-        private string MakeKey(int id)
+        private string MakeKey(Guid id)
         {
             return MakeKey(id.ToString());
         }

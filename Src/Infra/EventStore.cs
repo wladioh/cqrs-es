@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -17,10 +16,10 @@ namespace Infra
         private readonly IEventStoreConnection _connection;
 
 
-        public EventStore(IEventPublisher publisher)
+        public EventStore(IEventPublisher publisher, IEventStoreConnection connection)
         {
             _publisher = publisher;
-            _connection = EventStoreConnection.Create(new IPEndPoint(IPAddress.Loopback, 1113));
+            _connection = connection;
             _connection.ConnectAsync().Wait();
         }
 

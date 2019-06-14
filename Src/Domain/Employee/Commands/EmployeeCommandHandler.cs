@@ -16,7 +16,7 @@ namespace Domain.Employee.Commands
 
         public async Task Handle(CreateEmployeeCommand command, CancellationToken  ct)
         {
-            var employee = new Employee(command.Id, command.EmployeeId, command.FirstName, command.LastName, command.DateOfBirth, command.JobTitle);
+            var employee = new Employee(command.Id, command.FirstName, command.LastName, command.DateOfBirth, command.JobTitle);
             await _session.Add(employee, ct);
             await _session.Commit(ct);
         }

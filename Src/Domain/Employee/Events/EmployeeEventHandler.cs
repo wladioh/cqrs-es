@@ -1,10 +1,8 @@
 ﻿using System.Threading;
 using System.Threading.Tasks;
-using CQRSlite.Commands;
 using CQRSlite.Domain;
 using CQRSlite.Events;
 using Domain.Base;
-using Domain.Location.Events;
 
 namespace Domain.Employee.Events
 {

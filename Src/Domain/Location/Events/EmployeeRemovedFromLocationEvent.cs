@@ -5,13 +5,11 @@ namespace Domain.Location.Events
 {
     public class EmployeeRemovedFromLocationEvent : BaseEvent
     {
-        public readonly int OldLocationId;
-        public readonly int EmployeeId;
+        public readonly Guid EmployeeId;
 
-        public EmployeeRemovedFromLocationEvent(Guid id, int oldLocationId, int employeeId)
+        public EmployeeRemovedFromLocationEvent(Guid id, Guid employeeId)
         {
             Id = id;
-            OldLocationId = oldLocationId;
             EmployeeId = employeeId;
         }
     }

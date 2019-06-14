@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
 using Domain.Employee;
@@ -13,12 +14,12 @@ namespace Infra
         {
         }
 
-        public async Task<IEnumerable<EmployeeRM>> GetEmployees(int locationId, CancellationToken tc = default)
+        public async Task<IEnumerable<EmployeeRM>> GetEmployees(Guid locationId, CancellationToken tc = default)
         {
             return await Get<List<EmployeeRM>>(locationId + ":employees", tc);
         }
 
-        public async Task<bool> HasEmployee(int locationId, int employeeId, CancellationToken tc = default)
+        public async Task<bool> HasEmployee(Guid locationId, Guid employeeId, CancellationToken tc = default)
         {
             //Deserialize the LocationDTO with the key location:{locationID}
             var location = await GetById(locationId, tc);

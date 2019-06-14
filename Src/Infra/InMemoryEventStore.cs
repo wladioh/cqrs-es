@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using CQRSlite.Events;
-using MongoDB.Driver;
 
 namespace Infra
 {

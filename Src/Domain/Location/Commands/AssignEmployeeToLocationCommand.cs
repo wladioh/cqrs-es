@@ -5,14 +5,12 @@ namespace Domain.Location.Commands
 {
     public class AssignEmployeeToLocationCommand : BaseCommand
     {
-        public readonly int EmployeeId;
-        public readonly int LocationId;
+        public readonly Guid EmployeeId;
 
-        public AssignEmployeeToLocationCommand(Guid id, int locationId, int employeeId)
+        public AssignEmployeeToLocationCommand(Guid locationId, Guid employeeId)
         {
-            Id = id;
+            Id = locationId;
             EmployeeId = employeeId;
-            LocationId = locationId;
         }
     }
 }

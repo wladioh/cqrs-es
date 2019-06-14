@@ -10,8 +10,7 @@ namespace Domain.Location
         public string City { get; set; }
         public string State { get; set; }
         public string PostalCode { get; set; }
-        public List<int> Employees { get; set; } = new List<int>();
-        public Guid AggregateId { get; set; }
-        public int Id { get; set; }
+        public List<Guid> Employees { get; set; } = new List<Guid>();
+        public Guid Id { get; set; }
     }
 }
