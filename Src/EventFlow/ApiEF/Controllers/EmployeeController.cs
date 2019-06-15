@@ -3,19 +3,37 @@ using System.Threading;
 using System.Threading.Tasks;
 using DomainEF.Model.EmployeeModel;
 using EventFlow;
+using EventFlow.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace ApiEF.Controllers
 {
-    public class Employee : Controller
+    [Route("[controller]")]
+    [ApiController]
+    public class EmployeeController : ControllerBase
     {
         private readonly ICommandBus _commandBus;
+        private readonly IQueryProcessor _queryExecutor;
 
-        public Employee(ICommandBus commandBus)
+        public EmployeeController(ICommandBus commandBus, IQueryProcessor queryExecutor)
         {
             _commandBus = commandBus;
+            _queryExecutor = queryExecutor;
         }
 
+        [HttpGet("{id:guid}")]
+        public async Task<IActionResult> Get(Guid id, CancellationToken ct)
+        {
+            var x = await _queryExecutor.ProcessAsync(new ReadModelByIdQuery<EmployeeReadModel>(EmployeeId.With(id)), ct);
+            return Ok(x);
+        }
+        
+        [HttpGet]
+        public async Task<IActionResult> Get(CancellationToken ct)
+        {
+            var x = await _queryExecutor.ProcessAsync(new GetAllEmployee(), ct);
+            return Ok(x);
+        }
         [HttpPost]
         public async Task<IActionResult> Post(CreateEmployeeRequest request, CancellationToken ct)
         {

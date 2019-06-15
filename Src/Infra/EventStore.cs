@@ -35,8 +35,8 @@ namespace Infra
         private async Task SaveAndNotify(CancellationToken cancellationToken, IEvent @event)
         {
             var currentVersion = @event.Version - 2;
-            var expectedVersion =@event.Version - 1;
-            var t = await _connection.StartTransactionAsync(@event.Id.ToString(),  expectedVersion);
+            var expectedVersion = @event.Version - 1;
+            var t = await _connection.StartTransactionAsync(@event.Id.ToString(), expectedVersion);
             try
             {
                 await _connection.AppendToStreamAsync(@event.Id.ToString(), currentVersion,

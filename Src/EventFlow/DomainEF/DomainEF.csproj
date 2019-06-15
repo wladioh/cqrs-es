@@ -6,6 +6,7 @@
 
   <ItemGroup>
     <PackageReference Include="EventFlow" Version="0.73.3933" />
+    <PackageReference Include="Mapster" Version="4.0.0" />
   </ItemGroup>
 
 </Project>

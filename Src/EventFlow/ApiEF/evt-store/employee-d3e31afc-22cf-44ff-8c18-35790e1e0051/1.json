@@ -1,0 +1,7 @@
+{
+  "GlobalSequenceNumber": 4,
+  "AggregateId": "employee-d3e31afc-22cf-44ff-8c18-35790e1e0051",
+  "Data": "{\"EmployeeId\":\"employee-d3e31afc-22cf-44ff-8c18-35790e1e0051\",\"FirstName\":\"Wladi\",\"LastName\":\"Fer\",\"DateOfBirth\":\"1987-03-11T00:00:00\",\"JobTitle\":\"Tester\"}",
+  "Metadata": "{\"timestamp\":\"2019-06-15T00:13:13.6735634-03:00\",\"aggregate_sequence_number\":\"1\",\"aggregate_name\":\"EmployeeAggregate\",\"aggregate_id\":\"employee-d3e31afc-22cf-44ff-8c18-35790e1e0051\",\"event_id\":\"event-8bada207-e018-52ab-b720-e05359f0832d\",\"timestamp_epoch\":\"1560568394\",\"batch_id\":\"ba4c0b65-44fc-46a3-8fc6-108f452aba8b\",\"source_id\":\"command-6959628e-de9b-576c-bbbd-46439417f3d3\",\"event_name\":\"EmployeeCreated\",\"event_version\":\"1\"}",
+  "AggregateSequenceNumber": 1
+}

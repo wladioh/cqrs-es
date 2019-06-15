@@ -1,4 +1,10 @@
-﻿using ApiEF.Controllers;
+﻿using System;
+using System.Collections.Generic;
+using System.Threading;
+using System.Threading.Tasks;
+using ApiEF.Controllers;
+using DomainEF.Model.EmployeeModel;
+using EventFlow;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
@@ -7,9 +13,17 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using EventFlow.AspNetCore.Extensions;
 using EventFlow.AspNetCore.Middlewares;
+using EventFlow.Configuration;
 using EventFlow.DependencyInjection.Extensions;
 using EventFlow.EventStores.Files;
 using EventFlow.Extensions;
+using EventFlow.Logs;
+using EventFlow.Queries;
+using EventFlow.ReadStores;
+using EventFlow.ReadStores.InMemory;
+using EventFlow.ReadStores.InMemory.Queries;
+using Microsoft.EntityFrameworkCore;
+using LogLevel = Microsoft.Extensions.Logging.LogLevel;
 
 namespace ApiEF
 {
@@ -32,8 +46,10 @@ namespace ApiEF
 
             services
                 .AddEventFlow(o => o
-                    .AddDefaults(typeof(Employee).Assembly)
+                    .AddDefaults(typeof(EmployeeId).Assembly)
                     .UseFilesEventStore(FilesEventStoreConfiguration.Create("./evt-store"))
+                    //.UseInMemoryReadStoreFor<EmployeeReadModel>()
+                    .UseEntityFrameworkReadModel()
                     .ConfigureJson(j => j
                         .AddSingleValueObjects())
                     .AddAspNetCore(c => c
@@ -42,7 +58,6 @@ namespace ApiEF
                         .UseModelBinding()
                         .AddUserClaimsMetadata()
                         .UseLogging()
-                        
                     ));
         }
 
@@ -62,6 +77,37 @@ namespace ApiEF
             app.UseMiddleware<CommandPublishMiddleware>();
             app.UseHttpsRedirection();
             app.UseMvc();
+        }
+    }
+
+    public static class asdasd
+    {
+        public static IEventFlowOptions UseEntityFrameworkReadModel(
+            this IEventFlowOptions eventFlowOptions)
+        {
+            return eventFlowOptions
+                .RegisterServices(f =>
+                {
+                    f.Register<IEmployeeRepository, Repository>(Lifetime.Singleton);
+                    f.Register<IReadModelStore<EmployeeReadModel>>(r => r.Resolver.Resolve<IEmployeeRepository>());
+                })
+                .UseReadStoreFor<IEmployeeRepository, EmployeeReadModel>();
+        }
+    }
+    public class Repository : InMemoryReadStore<EmployeeReadModel>, IEmployeeRepository
+    {
+        public async Task<EmployeeReadModel> GetById(Guid id, CancellationToken ct = default)
+        {
+            return (await GetAsync(EmployeeId.With(id).Value, ct)).ReadModel;
+        }
+
+        public Task<IReadOnlyCollection<EmployeeReadModel>> GetAll(CancellationToken ct = default)
+        {
+            return this.FindAsync(model => true, ct);
+        }
+
+        public Repository(ILog log) : base(log)
+        {
         }
     }
 }
