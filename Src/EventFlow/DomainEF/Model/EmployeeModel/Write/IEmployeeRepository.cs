@@ -2,9 +2,10 @@
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
+using DomainEF.Model.EmployeeModel.Read;
 using EventFlow.ReadStores;
 
-namespace DomainEF.Model.EmployeeModel
+namespace DomainEF.Model.EmployeeModel.Write
 {
     public interface IEmployeeRepository: IReadModelStore<EmployeeReadModel>
     {

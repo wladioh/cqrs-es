@@ -1,0 +1,7 @@
+{
+  "GlobalSequenceNumber": 15,
+  "AggregateId": "location-cffb6167-36ce-4059-a416-1d98149a6eaa",
+  "Data": "{\"LocationId\":\"location-cffb6167-36ce-4059-a416-1d98149a6eaa\",\"StreetAddress\":\"Um endereço\",\"City\":\"uma cidade\",\"State\":\"um estado\",\"PostalCode\":\"05593-050\"}",
+  "Metadata": "{\"timestamp\":\"2019-06-17T00:43:29.0124289-03:00\",\"aggregate_sequence_number\":\"1\",\"aggregate_name\":\"LocationAggregate\",\"aggregate_id\":\"location-cffb6167-36ce-4059-a416-1d98149a6eaa\",\"event_id\":\"event-e6f7cac2-071c-5271-8238-922c92f13b62\",\"timestamp_epoch\":\"1560743009\",\"batch_id\":\"ae3af1a3-6ff8-465e-91df-7df08b6573c9\",\"source_id\":\"command-66cced72-e8d8-5461-a462-35f8eb1721d9\",\"event_name\":\"LocationCreated\",\"event_version\":\"1\"}",
+  "AggregateSequenceNumber": 1
+}

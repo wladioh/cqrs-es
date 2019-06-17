@@ -2,6 +2,9 @@
 using System.Threading;
 using System.Threading.Tasks;
 using DomainEF.Model.EmployeeModel;
+using DomainEF.Model.EmployeeModel.Read;
+using DomainEF.Model.EmployeeModel.Read.Query;
+using DomainEF.Model.EmployeeModel.Write.Commands;
 using EventFlow;
 using EventFlow.Queries;
 using Microsoft.AspNetCore.Mvc;

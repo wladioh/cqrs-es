@@ -1,5 +1,5 @@
 {
-  "GlobalSequenceNumber": 11,
+  "GlobalSequenceNumber": 15,
   "Log": {
     "1": "./evt-store\\employee-a29fb7cb-a98f-4dc3-abdc-873171d7224f\\1.json",
     "2": "./evt-store\\employee-d2ceae82-854a-43f9-b087-df2e26ece8a0\\1.json",
@@ -11,6 +11,10 @@
     "8": "./evt-store\\employee-8443ce77-e60f-4b13-a8c5-6c5f8f10415e\\1.json",
     "9": "./evt-store\\employee-1e532410-1c01-4d64-a11c-0e851111d1e6\\1.json",
     "10": "./evt-store\\employee-da16f485-eddd-4d49-9d92-627cb7071b05\\1.json",
-    "11": "./evt-store\\employee-5a188589-ae7c-4278-9905-01f306d9438d\\1.json"
+    "11": "./evt-store\\employee-5a188589-ae7c-4278-9905-01f306d9438d\\1.json",
+    "12": "./evt-store\\location-d0da52b8-c219-48ad-ac30-7ade94783d5e\\1.json",
+    "13": "./evt-store\\location-3c96b9e7-42da-499e-8b56-9d25c6b4c2de\\1.json",
+    "14": "./evt-store\\location-a2b6561b-8c86-411b-b740-bffc9f322a79\\1.json",
+    "15": "./evt-store\\location-cffb6167-36ce-4059-a416-1d98149a6eaa\\1.json"
   }
 }

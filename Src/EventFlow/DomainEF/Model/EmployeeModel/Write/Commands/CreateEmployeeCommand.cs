@@ -2,12 +2,10 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 using EventFlow.Aggregates.ExecutionResults;
 using EventFlow.Commands;
 
-namespace DomainEF.Model.EmployeeModel
+namespace DomainEF.Model.EmployeeModel.Write.Commands
 {
     public class CreateEmployeeCommand : DistinctCommand<EmployeeAggregate, EmployeeId, IExecutionResult>
     {
@@ -30,22 +28,6 @@ namespace DomainEF.Model.EmployeeModel
             yield return Encoding.UTF8.GetBytes(LastName);
             yield return Encoding.UTF8.GetBytes(DateOfBirth.ToString(CultureInfo.InvariantCulture));
             yield return Encoding.UTF8.GetBytes(JobTitle);
-        }
-    }
-
-
-    public class UserUpdatePasswordCommandHandler :
-        CommandHandler<EmployeeAggregate, EmployeeId, IExecutionResult, CreateEmployeeCommand>
-    {
-        public override Task<IExecutionResult> ExecuteCommandAsync(
-            EmployeeAggregate aggregate,
-            CreateEmployeeCommand command,
-            CancellationToken cancellationToken)
-        {
-            aggregate.SetBasicInformation(
-                command.FirstName, command.LastName, command.DateOfBirth, command.JobTitle);
-
-            return Task.FromResult(ExecutionResult.Success());
         }
     }
 }

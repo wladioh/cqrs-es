@@ -4,6 +4,9 @@ using System.Threading;
 using System.Threading.Tasks;
 using ApiEF.Controllers;
 using DomainEF.Model.EmployeeModel;
+using DomainEF.Model.EmployeeModel.Read;
+using DomainEF.Model.EmployeeModel.Write;
+using DomainEF.Model.Location;
 using EventFlow;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -49,7 +52,7 @@ namespace ApiEF
                     .AddDefaults(typeof(EmployeeId).Assembly)
                     .UseFilesEventStore(FilesEventStoreConfiguration.Create("./evt-store"))
                     //.UseInMemoryReadStoreFor<EmployeeReadModel>()
-                    .UseEntityFrameworkReadModel()
+                    .CustomReadModel()
                     .ConfigureJson(j => j
                         .AddSingleValueObjects())
                     .AddAspNetCore(c => c
@@ -82,7 +85,7 @@ namespace ApiEF
 
     public static class asdasd
     {
-        public static IEventFlowOptions UseEntityFrameworkReadModel(
+        public static IEventFlowOptions CustomReadModel(
             this IEventFlowOptions eventFlowOptions)
         {
             return eventFlowOptions
@@ -91,7 +94,8 @@ namespace ApiEF
                     f.Register<IEmployeeRepository, Repository>(Lifetime.Singleton);
                     f.Register<IReadModelStore<EmployeeReadModel>>(r => r.Resolver.Resolve<IEmployeeRepository>());
                 })
-                .UseReadStoreFor<IEmployeeRepository, EmployeeReadModel>();
+                .UseReadStoreFor<IEmployeeRepository, EmployeeReadModel>()
+                .UseInMemoryReadStoreFor<LocationReadModel>();
         }
     }
     public class Repository : InMemoryReadStore<EmployeeReadModel>, IEmployeeRepository
